@@ -887,7 +887,8 @@ func Convert_v1_VirtualMachine_To_api_Domain(vmi *v1.VirtualMachineInstance, dom
 
 	//TODO： 加了cloud-init的镜像
 	cloudDisk := Disk{
-		Type: "file",
+		Device: "cdrom",
+		Type:   "file",
 		Driver: &DiskDriver{
 			Type: "raw",
 		},
