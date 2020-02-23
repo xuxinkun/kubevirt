@@ -1118,29 +1118,27 @@ func Convert_v1_VirtualMachine_To_api_Domain(vmi *v1.VirtualMachineInstance, dom
 	//</video>
 
 	//TODO: 用了网络VNC
-	if vmi.Spec.Domain.Devices.AutoattachGraphicsDevice == nil || *vmi.Spec.Domain.Devices.AutoattachGraphicsDevice == true {
-		var heads uint = 1
-		var vram uint = 16384
-		domain.Spec.Devices.Video = []Video{
-			{
-				Model: VideoModel{
-					Type:  "vga",
-					Heads: &heads,
-					VRam:  &vram,
-				},
+	var heads uint = 1
+	var vram uint = 16384
+	domain.Spec.Devices.Video = []Video{
+		{
+			Model: VideoModel{
+				Type:  "vga",
+				Heads: &heads,
+				VRam:  &vram,
 			},
-		}
-		domain.Spec.Devices.Graphics = []Graphics{
-			{
-				Listen: &GraphicsListen{
-					Type:    "address",
-					Address: "0.0.0.0",
-					Socket:  fmt.Sprintf("/var/run/kubevirt-private/%s/virt-vnc", vmi.ObjectMeta.UID),
-				},
-				Type: "vnc",
-				Port: 5901,
+		},
+	}
+	domain.Spec.Devices.Graphics = []Graphics{
+		{
+			Listen: &GraphicsListen{
+				Type:    "address",
+				Address: "0.0.0.0",
+				Socket:  fmt.Sprintf("/var/run/kubevirt-private/%s/virt-vnc", vmi.ObjectMeta.UID),
 			},
-		}
+			Type: "vnc",
+			Port: 5901,
+		},
 	}
 
 	//if vmi.Spec.Domain.Devices.AutoattachGraphicsDevice == nil || *vmi.Spec.Domain.Devices.AutoattachGraphicsDevice == true {
