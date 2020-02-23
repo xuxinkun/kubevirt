@@ -39,7 +39,7 @@ import (
 	cmdclient "kubevirt.io/kubevirt/pkg/virt-handler/cmd-client"
 	eventsclient "kubevirt.io/kubevirt/pkg/virt-launcher/notify-client"
 
-	libvirt "github.com/libvirt/libvirt-go"
+	"github.com/libvirt/libvirt-go"
 	k8sv1 "k8s.io/api/core/v1"
 	"k8s.io/apimachinery/pkg/api/resource"
 	metav1 "k8s.io/apimachinery/pkg/apis/meta/v1"
@@ -62,7 +62,6 @@ import (
 	"kubevirt.io/kubevirt/pkg/virt-launcher/virtwrap/api"
 	"kubevirt.io/kubevirt/pkg/virt-launcher/virtwrap/cli"
 	domainerrors "kubevirt.io/kubevirt/pkg/virt-launcher/virtwrap/errors"
-	"kubevirt.io/kubevirt/pkg/virt-launcher/virtwrap/network"
 	"kubevirt.io/kubevirt/pkg/virt-launcher/virtwrap/stats"
 	"kubevirt.io/kubevirt/pkg/virt-launcher/virtwrap/util"
 )
@@ -815,11 +814,12 @@ func (l *LibvirtDomainManager) preStartHook(vmi *v1.VirtualMachineInstance, doma
 		}
 	}
 
+	//TODO: 不建网络了
 	// setup networking
-	err = network.SetupPodNetwork(vmi, domain)
-	if err != nil {
-		return domain, fmt.Errorf("preparing the pod network failed: %v", err)
-	}
+	//err = network.SetupPodNetwork(vmi, domain)
+	//if err != nil {
+	//	return domain, fmt.Errorf("preparing the pod network failed: %v", err)
+	//}
 
 	// create disks images on the cluster lever
 	// or initalize disks images for empty PVC
