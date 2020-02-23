@@ -1134,10 +1134,9 @@ func Convert_v1_VirtualMachine_To_api_Domain(vmi *v1.VirtualMachineInstance, dom
 			Listen: &GraphicsListen{
 				Type:    "address",
 				Address: "0.0.0.0",
-				Socket:  fmt.Sprintf("/var/run/kubevirt-private/%s/virt-vnc", vmi.ObjectMeta.UID),
 			},
 			Type: "vnc",
-			Port: 5901,
+			Port: 5910,
 		},
 	}
 
