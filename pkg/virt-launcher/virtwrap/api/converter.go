@@ -819,6 +819,7 @@ func Convert_v1_VirtualMachine_To_api_Domain(vmi *v1.VirtualMachineInstance, dom
 	}
 
 	ioThreadCount := (autoThreads + dedicatedThreads)
+	ioThreadCount = 0
 	if ioThreadCount != 0 {
 		if domain.Spec.IOThreads == nil {
 			domain.Spec.IOThreads = &IOThreads{}
