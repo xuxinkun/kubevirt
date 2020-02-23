@@ -1024,6 +1024,9 @@ func Convert_v1_VirtualMachine_To_api_Domain(vmi *v1.VirtualMachineInstance, dom
 		domain.Spec.CPU.Mode = v1.CPUModeHostModel
 	}
 
+	//TODO: 改动了下
+	*vmi.Spec.Domain.Devices.AutoattachSerialConsole = false
+
 	if vmi.Spec.Domain.Devices.AutoattachSerialConsole == nil || *vmi.Spec.Domain.Devices.AutoattachSerialConsole == true {
 		// Add mandatory console device
 		var serialPort uint = 0
@@ -1051,6 +1054,9 @@ func Convert_v1_VirtualMachine_To_api_Domain(vmi *v1.VirtualMachineInstance, dom
 			},
 		}
 	}
+
+	// TODO: 改动了下
+	*vmi.Spec.Domain.Devices.AutoattachGraphicsDevice = false
 
 	if vmi.Spec.Domain.Devices.AutoattachGraphicsDevice == nil || *vmi.Spec.Domain.Devices.AutoattachGraphicsDevice == true {
 		var heads uint = 1
