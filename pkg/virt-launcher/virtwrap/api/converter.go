@@ -1297,6 +1297,9 @@ func Convert_v1_VirtualMachine_To_api_Domain(vmi *v1.VirtualMachineInstance, dom
 		Model: &Model{
 			Type: "virtio",
 		},
+		Alias: &Alias{
+			Name: "cor0",
+		},
 		MAC: &MAC{
 			MAC: "44:44:44:11:22:33",
 		},
