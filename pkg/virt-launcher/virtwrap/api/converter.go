@@ -920,6 +920,7 @@ func Convert_v1_VirtualMachine_To_api_Domain(vmi *v1.VirtualMachineInstance, dom
 		},
 		Driver: &DiskDriver{
 			Type: "raw",
+			Name: "qemu",
 		},
 		Source: DiskSource{
 			File: "/home/kvm/kubevirt/cloud-config.img",
