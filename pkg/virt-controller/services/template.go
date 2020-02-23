@@ -330,6 +330,21 @@ func (t *templateService) RenderLaunchManifest(vmi *v1.VirtualMachineInstance) (
 		gracePeriodSeconds = *vmi.Spec.TerminationGracePeriodSeconds
 	}
 
+	//TODO: 把libvirt直接挂给launcher
+	volumes = append(volumes, k8sv1.Volume{
+		Name: "systemlibvirt",
+		VolumeSource: k8sv1.VolumeSource{
+			HostPath: &k8sv1.HostPathVolumeSource{
+				Path: "/var/run/libvirt",
+			},
+		},
+	})
+
+	volumeMounts = append(volumeMounts, k8sv1.VolumeMount{
+		Name:      "systemlibvirt",
+		MountPath: "/var/run/libvirt",
+	})
+
 	volumeMounts = append(volumeMounts, k8sv1.VolumeMount{
 		Name:      "ephemeral-disks",
 		MountPath: t.ephemeralDiskDir,

@@ -354,14 +354,14 @@ func main() {
 		*name)
 	watchdogDone := startWatchdogTicker(watchdogFile, *watchdogInterval, stopChan, *uid)
 
-	err = util.SetupLibvirt()
-	if err != nil {
-		panic(err)
-	}
-	util.StartLibvirt(stopChan)
-	if err != nil {
-		panic(err)
-	}
+	//err = util.SetupLibvirt()
+	//if err != nil {
+	//	panic(err)
+	//}
+	//util.StartLibvirt(stopChan)
+	//if err != nil {
+	//	panic(err)
+	//}
 	util.StartVirtlog(stopChan)
 
 	domainConn := createLibvirtConnection()

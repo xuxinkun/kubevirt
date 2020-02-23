@@ -379,17 +379,21 @@ func Convert_v1_ContainerDiskSource_To_api_Disk(volumeName string, _ *v1.Contain
 	}
 	disk.Type = "file"
 	disk.Driver.Type = "qcow2"
-	disk.Source.File = ephemeraldisk.GetFilePath(volumeName)
-	disk.BackingStore = &BackingStore{
-		Format: &BackingStoreFormat{},
-		Source: &DiskSource{},
-	}
+	//TODO: 这里改为从物理机获取的路径
 
-	source := containerdisk.GenerateDiskTargetPathFromLauncherView(diskIndex)
+	disk.Source.File = "/home/kvm/kubevirt/centos7.qcow2"
 
-	disk.BackingStore.Format.Type = c.DiskType[volumeName].Format
-	disk.BackingStore.Source.File = source
-	disk.BackingStore.Type = "file"
+	//disk.Source.File = ephemeraldisk.GetFilePath(volumeName)
+	//disk.BackingStore = &BackingStore{
+	//	Format: &BackingStoreFormat{},
+	//	Source: &DiskSource{},
+	//}
+	//
+	//source := containerdisk.GenerateDiskTargetPathFromLauncherView(diskIndex)
+	//
+	//disk.BackingStore.Format.Type = c.DiskType[volumeName].Format
+	//disk.BackingStore.Source.File = source
+	//disk.BackingStore.Type = "file"
 
 	return nil
 }
