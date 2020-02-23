@@ -362,10 +362,10 @@ func (t *templateService) RenderLaunchManifest(vmi *v1.VirtualMachineInstance) (
 		MountPath: t.virtShareDir,
 	})
 
-	volumeMounts = append(volumeMounts, k8sv1.VolumeMount{
-		Name:      "libvirt-runtime",
-		MountPath: "/var/run/libvirt",
-	})
+	//volumeMounts = append(volumeMounts, k8sv1.VolumeMount{
+	//	Name:      "libvirt-runtime",
+	//	MountPath: "/var/run/libvirt",
+	//})
 
 	if util.IsSRIOVVmi(vmi) || util.IsGPUVMI(vmi) {
 		// libvirt needs this volume to access PCI device config;
@@ -827,12 +827,12 @@ func (t *templateService) RenderLaunchManifest(vmi *v1.VirtualMachineInstance) (
 			},
 		},
 	)
-	volumes = append(volumes, k8sv1.Volume{
-		Name: "libvirt-runtime",
-		VolumeSource: k8sv1.VolumeSource{
-			EmptyDir: &k8sv1.EmptyDirVolumeSource{},
-		},
-	})
+	//volumes = append(volumes, k8sv1.Volume{
+	//	Name: "libvirt-runtime",
+	//	VolumeSource: k8sv1.VolumeSource{
+	//		EmptyDir: &k8sv1.EmptyDirVolumeSource{},
+	//	},
+	//})
 	volumes = append(volumes, k8sv1.Volume{
 		Name: "ephemeral-disks",
 		VolumeSource: k8sv1.VolumeSource{
