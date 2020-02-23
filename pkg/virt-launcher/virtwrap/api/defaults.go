@@ -39,6 +39,8 @@ func SetDefaults_OSType(ostype *OSType) {
 			ostype.Machine = "q35"
 		}
 	}
+	//TODO: 这个要跟kvm版本匹配
+	ostype.Machine = "pc"
 }
 
 func SetDefaults_DomainSpec(spec *DomainSpec) {
