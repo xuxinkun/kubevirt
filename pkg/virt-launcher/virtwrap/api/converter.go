@@ -885,10 +885,39 @@ func Convert_v1_VirtualMachine_To_api_Domain(vmi *v1.VirtualMachineInstance, dom
 		domain.Spec.Devices.Disks = append(domain.Spec.Devices.Disks, newDisk)
 	}
 
+	//<disk type='file' device='cdrom'>
+	//<driver name='qemu' type='raw'/>
+	//<source file='/home/data/cloud-config.img'/>
+	//<backingStore/>
+	//<target dev='hda' bus='ide'/>
+	//<readonly/>
+	//<alias name='ide0-0-0'/>
+	//<address type='drive' controller='0' bus='0' target='0' unit='0'/>
+	//</disk>
+	//<disk type='file' device='disk'>
+	//<driver name='qemu' type='qcow2'/>
+	//<source file='/home/data/centos7.qcow2'/>
+	//<backingStore/>
+	//<target dev='vda' bus='virtio'/>
+	//<alias name='virtio-disk0'/>
+	//<address type='pci' domain='0x0000' bus='0x00' slot='0x05' function='0x0'/>
+	//</disk>
+
 	//TODO： 加了cloud-init的镜像
 	cloudDisk := Disk{
 		Device: "cdrom",
 		Type:   "file",
+		Address: &Address{
+			Type:       "drive",
+			Controller: "0",
+			Bus:        "0",
+			Target:     "0",
+			Unit:       "0",
+		},
+		Target: DiskTarget{
+			Device: "hda",
+			Bus:    "ide",
+		},
 		Driver: &DiskDriver{
 			Type: "raw",
 		},
