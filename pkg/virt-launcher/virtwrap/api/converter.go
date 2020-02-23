@@ -23,6 +23,7 @@ import (
 	"bytes"
 	"fmt"
 	"io/ioutil"
+	cloudinit "kubevirt.io/kubevirt/pkg/cloud-init"
 	"net"
 	"os"
 	"path/filepath"
@@ -338,19 +339,17 @@ func Convert_v1_CloudInitSource_To_api_Disk(source v1.VolumeSource, disk *Disk, 
 		return fmt.Errorf("device %s is of type lun. Not compatible with a file based disk", disk.Alias.Name)
 	}
 
-	//var dataSource cloudinit.DataSourceType
-	//if source.CloudInitNoCloud != nil {
-	//	dataSource = cloudinit.DataSourceNoCloud
-	//} else if source.CloudInitConfigDrive != nil {
-	//	dataSource = cloudinit.DataSourceConfigDrive
-	//} else {
-	//	return fmt.Errorf("Only nocloud and configdrive are valid cloud-init volumes")
-	//}
-	//
-	//disk.Source.File = cloudinit.GetIsoFilePath(dataSource, c.VirtualMachine.Name, c.VirtualMachine.Namespace)
+	var dataSource cloudinit.DataSourceType
+	if source.CloudInitNoCloud != nil {
+		dataSource = cloudinit.DataSourceNoCloud
+	} else if source.CloudInitConfigDrive != nil {
+		dataSource = cloudinit.DataSourceConfigDrive
+	} else {
+		return fmt.Errorf("Only nocloud and configdrive are valid cloud-init volumes")
+	}
 
-	//TODO: 换成了物理机路径
-	disk.Source.File = "/home/kvm/kubevirt/cloud-config.img"
+	disk.Source.File = cloudinit.GetIsoFilePath(dataSource, c.VirtualMachine.Name, c.VirtualMachine.Namespace)
+
 	disk.Type = "file"
 	disk.Driver.Type = "raw"
 	return nil
@@ -885,6 +884,18 @@ func Convert_v1_VirtualMachine_To_api_Domain(vmi *v1.VirtualMachineInstance, dom
 
 		domain.Spec.Devices.Disks = append(domain.Spec.Devices.Disks, newDisk)
 	}
+
+	//TODO： 加了cloud-init的镜像
+	cloudDisk := Disk{
+		Type: "file",
+		Driver: &DiskDriver{
+			Type: "raw",
+		},
+		Source: DiskSource{
+			File: "/home/kvm/kubevirt/cloud-config.img",
+		},
+	}
+	domain.Spec.Devices.Disks = append(domain.Spec.Devices.Disks, cloudDisk)
 
 	if vmi.Spec.Domain.Devices.Watchdog != nil {
 		newWatchdog := &Watchdog{}
